@@ -3,31 +3,21 @@
  
 
 using namespace std;
- 
-// N is the size of the 2D matrix   N*N
-#define N 9
- 
-/* A utility function to print grid */
 
-void print(int arr[N][N])
+#define N 9
+
+void Show(int arr[N][N])
 {
 
     for (int i = 0; i < N; i++) 
-
     {
-
         for (int j = 0; j < N; j++)
-
-            cout << arr[i][j] << " ";
-
+            cout << arr[i][j] << "/t";
         cout << endl;
-
     }
 }
  
-// Checks whether it will be 
-// legal to assign num to the
-// given row, col
+//Проверки
 
 bool isSafe(int grid[N][N], int row, 
 
@@ -36,12 +26,7 @@ bool isSafe(int grid[N][N], int row,
 
      
 
-    // Check if we find the same num 
-
-    // in the similar row , we
-
-    // return false
-
+    //строки
     for (int x = 0; x <= 8; x++)
 
         if (grid[row][x] == num)
@@ -49,12 +34,7 @@ bool isSafe(int grid[N][N], int row,
             return false;
  
 
-    // Check if we find the same num in 
-
-    // the similar column , we
-
-    // return false
-
+    //столбца
     for (int x = 0; x <= 8; x++)
 
         if (grid[x][col] == num)
@@ -62,10 +42,9 @@ bool isSafe(int grid[N][N], int row,
             return false;
  
 
-    //Проверка кубика
+    //кубика
     int startRow = row - row % 3, 
-
-            startCol = col - col % 3;
+        startCol = col - col % 3;
 
 
     for (int i = 0; i < 3; i++)
@@ -82,6 +61,7 @@ bool isSafe(int grid[N][N], int row,
     return true;
 }
  
+//решение
 bool solveSuduko(int grid[N][N], int row, int col)
 {
 
@@ -143,7 +123,7 @@ bool solveSuduko(int grid[N][N], int row, int col)
 
 int main()
 {
-
+    setlocal(LC_ALL, "ru");
     int grid[N][N] = { { 3, 0, 6, 5, 0, 8, 4, 0, 0 },
 
                        { 5, 2, 0, 0, 0, 0, 0, 0, 0 },
@@ -165,7 +145,7 @@ int main()
 
     if (solveSuduko(grid, 0, 0))
 
-        print(grid);
+        Show(grid);
 
     else
 
