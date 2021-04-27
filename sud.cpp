@@ -1,11 +1,9 @@
-
 #include <iostream>
- 
-
 using namespace std;
 
 #define N 9
 
+// Вывод
 void Show(int arr[N][N])
 {
 
