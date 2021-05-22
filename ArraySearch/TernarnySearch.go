@@ -9,12 +9,14 @@ import (
 	"time"
 )
 
+//Почти как эскпоненциальный и интерполяционный
+//Суть - найти миминмум или максимум в функцие, которая возрастает или убывает
 func TernarySearch(array []int, number int) int {
 	minIndex := 0
 	maxIndex := len(array) - 1
 	// пока границы не сомкнуться
 	for minIndex <= maxIndex {
-		//Получаем
+		//Подставляем в формулу и ищем, вообще доказывается как-то математически
 		midIndex1 := minIndex + int((maxIndex-minIndex)/3)
 		midIndex2 := maxIndex - int((maxIndex-minIndex)/3)
 		midItem1 := array[midIndex1]
@@ -24,6 +26,7 @@ func TernarySearch(array []int, number int) int {
 		} else if midItem2 == number {
 			return midIndex2
 		}
+		//Сдвигаем границы
 		if midItem1 < number {
 			minIndex = midIndex1 + 1
 		} else if midItem2 > number {
