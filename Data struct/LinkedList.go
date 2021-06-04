@@ -17,22 +17,18 @@ type LinkedList struct {
 	tail *Node
 }
 
-func (list *LinkedList) InsertFirst(i int) {
-	data := &Node{data: i}
-	if list.head != nil {
-		list.head.prev = data
-		data.next = list.head
-	}
-	list.head = data
-}
+//Далее - data := &Node{data: i} - создание звена с путыми указателями и значением i
 
+//Вставка в конец
 func (list *LinkedList) InsertLast(i int) {
 	data := &Node{data: i}
+	//Если список пустой - элемент становится головным и хвостом
 	if list.head == nil {
 		list.head = data
 		list.tail = data
 		return
 	}
+	//добавляем элемент в конец - назначяем хвостом
 	if list.tail != nil {
 		list.tail.next = data
 		data.prev = list.tail
@@ -40,10 +36,13 @@ func (list *LinkedList) InsertLast(i int) {
 	list.tail = data
 }
 
+//Удаляем по значения
 func (list *LinkedList) RemoveByValue(i int) bool {
+	//Вернем если пусто
 	if list.head == nil {
 		return false
 	}
+	//Проверим голову и хвост на совпадение
 	if list.head.data == i {
 		list.head = list.head.next
 		list.head.prev = nil
@@ -54,6 +53,7 @@ func (list *LinkedList) RemoveByValue(i int) bool {
 		list.tail.next = nil
 		return true
 	}
+	//Иначе перебираем все элементы, просто сменяя current, который первоначально - голова
 	current := list.head
 	for current.next != nil {
 		if current.next.data == i {
@@ -65,21 +65,26 @@ func (list *LinkedList) RemoveByValue(i int) bool {
 		}
 		current = current.next
 	}
+	//не найдено
 	return false
 }
 
+//Удалить по индексу
 func (list *LinkedList) RemoveByIndex(i int) bool {
 	if list.head == nil {
 		return false
 	}
+	//Проверка на корректность индекса
 	if i < 0 {
 		return false
 	}
+	//Первый элемент - он же нулевой
 	if i == 0 {
 		list.head.prev = nil
 		list.head = list.head.next
 		return true
 	}
+	//Перебираем все элементы, попутно считая их число
 	current := list.head
 	for u := 1; u < i; u++ {
 		if current.next.next == nil {
@@ -94,10 +99,12 @@ func (list *LinkedList) RemoveByIndex(i int) bool {
 	return true
 }
 
+//Поиск по списку
 func (list *LinkedList) SearchValue(i int) bool {
 	if list.head == nil {
 		return false
 	}
+	//Перебираем все звенья, используя current, пока не совпдает значение
 	current := list.head
 	for current != nil {
 		if current.data == i {
@@ -105,9 +112,11 @@ func (list *LinkedList) SearchValue(i int) bool {
 		}
 		current = current.next
 	}
+	//Не нашли
 	return false
 }
 
+//Возвращает головной элемент списка, если не пусто
 func (list *LinkedList) GetFirst() (int, bool) {
 	if list.head == nil {
 		return 0, false
@@ -115,6 +124,7 @@ func (list *LinkedList) GetFirst() (int, bool) {
 	return list.head.data, true
 }
 
+//Возвращает хвостовой элемент списка, если не пусто
 func (list *LinkedList) GetLast() (int, bool) {
 	if list.head == nil {
 		return 0, false
@@ -126,6 +136,7 @@ func (list *LinkedList) GetLast() (int, bool) {
 	return current.data, true
 }
 
+//Возвращает кол-во элементов списка, если не пусто
 func (list *LinkedList) GetSize() int {
 	count := 0
 	current := list.head
@@ -137,37 +148,13 @@ func (list *LinkedList) GetSize() int {
 	return count
 }
 
-func (list *LinkedList) GetItemsFromStart() []int {
+//Вывод элементов от головы к хвосту
+func (list *LinkedList) Show() []int {
 	var items []int
 	current := list.head
 	for current != nil {
 		items = append(items, current.data)
 		current = current.next
-	}
-	return items
-}
-
-func (list *LinkedList) GetItemsFromEnd() []int {
-	var items []int
-	current := list.tail
-	for current != nil {
-		items = append(items, current.data)
-		current = current.prev
-	}
-	return items
-}
-
-func (list *LinkedList) GetAllItems() []int {
-	var items []int
-	current := list.head
-	for current != nil {
-		items = append(items, current.data)
-		current = current.next
-	}
-	current = list.tail
-	for current != nil {
-		items = append(items, current.data)
-		current = current.prev
 	}
 	return items
 }
@@ -184,13 +171,7 @@ func main() {
 	l.InsertLast(3)
 
 	fmt.Print("Список: ")
-	fmt.Println(l.GetAllItems())
-
-	fmt.Print("Список с начала: ")
-	fmt.Println(l.GetItemsFromStart())
-
-	fmt.Print("Список с конца: ")
-	fmt.Println(l.GetItemsFromEnd())
+	fmt.Println(l.Show())
 
 	fmt.Print("Вершина: ")
 	fmt.Println(l.GetFirst())
