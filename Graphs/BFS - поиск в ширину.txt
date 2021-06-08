@@ -1,0 +1,83 @@
+// Программа для печати обхода BFS из заданного
+// исходная вершина. BFS (int s) пересекает вершины
+// достижим от s.
+#include<iostream>
+#include <list>
+using namespace std;
+  
+//Класс для определения Графа
+class Graph
+{
+    int V;    // Количество вершин
+    // Указатель на массив, содержащий смежность - список
+    list<int> *adj;   
+public:
+    Graph(int V);
+    // функция для добавления ребра на график
+    void addEdge(int v, int w);
+    // печатает прохождение BFS из заданного источника
+    void BFS(int s);  
+};  
+
+Graph::Graph(int V)
+{
+    this->V = V;
+    adj = new list<int>[V];
+} 
+
+void Graph::addEdge(int v, int w)
+{
+    adj[v].push_back(w); // Добавить w в список v.
+}
+void Graph::BFS(int s)
+{
+    // Пометить все вершины как не посещенные
+    bool *visited = new bool[V];
+    for(int i = 0; i < V; i++)
+        visited[i] = false;
+
+    // Создать очередь для BFS
+    list<int> queue;
+
+    // Помечаем текущий узел как посещенный и ставим его в очередь
+    visited[s] = true;
+    queue.push_back(s);  
+
+    // 'i' будет использоваться для получения всех соседних вершин вершины
+    list<int>::iterator i;
+//Пока очередь не пуста
+    while(!queue.empty()) {
+        // Удаление вершины из очереди и печать ее
+        s = queue.front();
+        cout << s << " ";
+        queue.pop_front();
+
+        // Получить все смежные вершины исключенного из очереди
+        // вершина s. Если соседний не был посещен,
+        // затем помечаем его как посещенный и ставим в очередь
+        for (i = adj[s].begin(); i != adj[s].end(); ++i)
+        {
+            if (!visited[*i])
+            {
+                visited[*i] = true;
+                queue.push_back(*i);
+            }
+        }
+    }
+}
+
+int main()
+{
+//Создаем и заполняем граф произвольный
+    Graph g(4);
+    g.addEdge(0, 1);
+    g.addEdge(0, 2);
+    g.addEdge(1, 2);
+    g.addEdge(2, 0);
+    g.addEdge(2, 3);
+    g.addEdge(3, 3);
+
+    g.BFS(2);
+
+    return 0;
+} 

@@ -1,0 +1,34 @@
+//Для удобства, используем итераторы
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void generate(set<string>& st, string s) {
+
+    if (s.size() == 0)
+        return;
+
+    if (st.find(s) == st.end()) {
+        st.insert(s);
+        // Обход текщей строки, один за другим удаляем каждый символ и повторяем
+        for (int i = 0; i < s.size(); i++) {
+            string t = s;
+            t.erase(i, 1);
+            generate(st, t);
+        }
+    }
+    return;
+}
+
+int main() {
+//входняа строка
+    string s = "ABC";
+//Генерируем
+    set<string> st;
+    set<string>::iterator it;
+    generate(st, s);
+//Выводим, навигация по set - с помощью итератора
+    for (auto it = st.begin(); it != st.end(); it++)
+        cout << *it << endl;
+    return 0;
+}

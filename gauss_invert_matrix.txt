@@ -1,0 +1,179 @@
+#include <iostream>
+using namespace std;
+
+
+//1. Расширенная матрица.
+//2. Выполните операцию сокращения строк на этой расширенной матрице, чтобы создать матричную форму с уменьшенным числом строк.
+//3. Менять местами 2 ряда; - умножать строку на ненулевую строку; - скалдывать строки;
+
+// Функция для печати матрицы.
+void PrintMatrix(float ar[][20], int n, int m) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            cout << ar[i][j] << "  ";
+        }
+        cout << endl;
+    }
+    return;
+}
+
+
+//Печать
+void PrintInverse(float ar[][20], int n, int m) {
+    for (int i = 0; i < n; i++) {
+        for (int j = n; j < m; j++) {
+            printf("%.3f  ", ar[i][j]);
+        }
+        printf("\n");
+    }
+    return;
+}
+
+//Вычкрвиание строк - вызывается рекурсивно, приводя к матрице 2x2
+void getMatrixWithoutRowAndCol(int **matrix, int size, int row, int col, int **newMatrix) {
+    int offsetRow = 0;
+    int offsetCol = 0;
+    for(int i = 0; i < size-1; i++) {
+        if(i == row) {
+            offsetRow = 1;
+        }
+        offsetCol = 0;
+        for(int j = 0; j < size-1; j++) {
+            if(j == col) {
+                offsetCol = 1;
+            }
+            newMatrix[i][j] = matrix[i + offsetRow][j + offsetCol];
+        }
+    }
+}
+
+//Поиск определителя матрциы любого размера
+int matrixDet(int **matrix, int size) {
+
+    int det = 0;
+    int degree = 1;
+
+    if(size == 1) {
+        return matrix[0][0];
+    }
+    if(size == 2) {
+        return matrix[0][0]*matrix[1][1] - matrix[0][1]*matrix[1][0];
+    }
+    
+    // Новая матрица без строки и столбца
+    int **newMatrix = new int*[size-1];
+    for(int i = 0; i < size-1; i++) {
+        newMatrix[i] = new int[size-1];
+    }
+
+    //рекурсивно считаем миноры и подставляем в формулы суммы определителя
+    for(int j = 0; j < size; j++) {
+        getMatrixWithoutRowAndCol(matrix, size, 0, j, newMatrix);
+        det = det + (degree * matrix[0][j] * matrixDet(newMatrix, size-1));
+        degree = -degree;
+    }
+    
+    for(int i = 0; i < size-1; i++) {
+        delete [] newMatrix[i];
+    }
+
+    delete [] newMatrix;
+
+    return det;
+}
+
+void InverseOfMatrix(float matrix[][20], int order) {
+    float temp;
+    cout << "\nOrigin:" << endl;
+    PrintMatrix(matrix, order, order);
+
+    // Создаем расширенную матрицу
+    // Добавить идентификационную матрицу
+    // порядка в конце исходной матрицы.
+    for (int i = 0; i < order; i++) {
+        for (int j = 0; j < 2 * order; j++) {
+            // Добавить '1' в диагональных местах
+            // матрица для создания идентичности matirx
+            if (j == (i + order))
+                matrix[i][j] = 1;
+        }
+    }
+
+
+    //замена строк
+    for (int i = order - 1; i > 0; i--) {
+
+         if (matrix [i - 1] [0] < matrix [i] [0])
+            for (int j = 0; j <2 * order; j ++) {
+                temp = matrix[i][j];
+         matrix [i] [j] = matrix [i - 1] [j];
+         matrix [i - 1] [j] = temp;
+    }
+
+    }
+
+    cout << "\nMatrix-1:" << endl;
+    PrintMatrix(matrix, order, order * 2);
+
+    for (int i = 0; i < order; i++) {
+        for (int j = 0; j < order; j++) {
+            if (j != i) {
+                temp = matrix[j][i] / matrix[i][i];
+                for (int k = 0; k < 2 * order; k++) {
+                    matrix[j][k] -= matrix[i][k] * temp;
+                }
+            }
+        }
+    }
+
+    cout << "\nMatrix-2:" << endl;
+    PrintMatrix(matrix, order, order * 2);
+
+    for (int i = 0; i < order; i++) {
+        temp = matrix[i][i];
+        for (int j = 0; j < 2 * order; j++) {
+            matrix[i][j] = matrix[i][j] / temp;
+        }
+    }
+
+    cout << "\nIn matrix:" << endl;
+    PrintInverse(matrix, order, 2 * order);
+    return;
+}
+int main() {
+
+    int order = 3;
+    float matrix[20][20] = {{1, 2, 3},
+
+                            {4, 5, 6},
+
+                            {7, 8, 9},
+
+                            {0}};
+
+    int **m = new int *[order];
+    for (int i = 0; i < order; i++) {
+        m[i] = new int[order];
+    }
+
+    m[0][0] = 1;
+    m[0][1] = 2;
+    m[0][2] = 3;
+    m[1][0] = 4;
+    m[1][1] = 5;
+    m[1][2] = 6;
+    m[2][0] = 7;
+    m[2][1] = 8;
+    m[2][2] = 9;
+
+    int d = matrixDet(m, order);
+
+    if (d != 0) {
+        cout << "Det: " << d << endl;
+        InverseOfMatrix(matrix, order);
+        return 0;
+    } else {
+        cout << "Det = 0";
+        return -1;
+    }
+}
