@@ -1,0 +1,12 @@
+/home/ahehiohyou/RiderProjects/lr_analyzer/bin/Debug/lr_analyzer.exe
+/home/ahehiohyou/RiderProjects/lr_analyzer/bin/Debug/lr_analyzer.pdb
+/home/ahehiohyou/RiderProjects/lr_analyzer/obj/Debug/lr_analyzer.csprojAssemblyReference.cache
+/home/ahehiohyou/RiderProjects/lr_analyzer/obj/Debug/lr_analyzer.csproj.CoreCompileInputs.cache
+/home/ahehiohyou/RiderProjects/lr_analyzer/obj/Debug/lr_analyzer.exe
+/home/ahehiohyou/RiderProjects/lr_analyzer/obj/Debug/lr_analyzer.pdb
+/home/ahehiohyou/Desktop/works/zen/lr_analyzer/bin/Debug/lr_analyzer.exe
+/home/ahehiohyou/Desktop/works/zen/lr_analyzer/bin/Debug/lr_analyzer.pdb
+/home/ahehiohyou/Desktop/works/zen/lr_analyzer/obj/Debug/lr_analyzer.csprojAssemblyReference.cache
+/home/ahehiohyou/Desktop/works/zen/lr_analyzer/obj/Debug/lr_analyzer.csproj.CoreCompileInputs.cache
+/home/ahehiohyou/Desktop/works/zen/lr_analyzer/obj/Debug/lr_analyzer.exe
+/home/ahehiohyou/Desktop/works/zen/lr_analyzer/obj/Debug/lr_analyzer.pdb
